@@ -262,7 +262,23 @@ map.on('click', 'trails', function (e) {
         map.getCanvas().style.cursor = '';
     });
     
-    
+   // roads popup showing name? Not sure if there's a way to merge this and previous popup function 
+map.on('click', 'roads', function (e) {
+    new mapboxgl.Popup()
+        .setLngLat(e.lngLat)
+        .setHTML(e.features[0].properties.St_Name)
+        .addTo(map);
+    });
+ 
+// Change the cursor to a pointer when the mouse is over the places layer.
+    map.on('mouseenter', 'roads', function () {
+        map.getCanvas().style.cursor = 'pointer';
+    });
+ 
+// Change it back to a pointer when it leaves.
+    map.on('mouseleave', 'roads', function () {
+        map.getCanvas().style.cursor = '';
+    });
 </script>
 
 </body>
