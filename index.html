@@ -6,7 +6,7 @@
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
-    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:200,400,600,800" rel="stylesheet">
     <style>
         body { margin:0; padding:0; }
         #map { position:absolute; top:0; bottom:0; width:100%; }
@@ -14,6 +14,17 @@
 </head>
 <body>
 <style>
+    .map-overlay {
+        position:absolute;
+        bottom: 2.5%;
+        left: 2.5%;
+        padding-left: 3%;
+        font-family: 'Raleway', sans-serif;
+        overflow: auto;
+        background: rgba(255,255,255,0.8);
+        height: 315px;
+        width: 200px;
+    }
     #menu {
         background: #fff;
         position: absolute;
@@ -25,33 +36,27 @@
         border: 1px solid rgba(0,0,0,0.4);
         font-family: 'Raleway', sans-serif;
     }
-
     #menu a {
         font-size: 13px;
         color: #404040;
         display: block;
         margin: 0;
-        padding: 0;
         padding: 10px;
         text-decoration: none;
         border-bottom: 1px solid rgba(0,0,0,0.25);
         text-align: center;
     }
-
     #menu a:last-child {
         border: none;
     }
-
     #menu a:hover {
         background-color: #f8f8f8;
         color: #404040;
     }
-
     #menu a.active {
         background-color: #3887be;
         color: #ffffff;
     }
-
     #menu a.active:hover {
         background: #3074a4;
     }
@@ -59,45 +64,90 @@
         max-width: 400px;
         font-family: 'Raleway',sans-serif;
     }
+    legend{
+        background-color: #fff;
+        border-radius: 3px;
+        bottom: 30px;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.10);
+        font: 12px/20px 'Raleway', sans-serif;
+        padding: 5px;
+        position: absolute;
+        right: 10px;
+        z-index: 1;
+    }
+    .legend div span {
+        border-radius: 50%;
+        display: inline-block;
+        height: 10px;
+        margin-left: 5px;
+        width: 10px;
+    }
+    .toggle {
+        position:absolute;
+        font-family: 'Raleway','sans-serif';
+        top:0%;
+        right:0%;
+    }
+    h2 {
+        font-family: 'Raleway', sans-serif;
+        font-style: 'extra-bold';
+        font-size: 24px;
+    }
+    h3 {
+        font-family: 'Raleway',sans-serif;
+        font-style: 'semi-bold';
+        font-weight: 600;
+        font-size: 14px;
+    }
+    p {
+        font-size: 14px;
+        font-family: 'Raleway'', sans-serif;
+    }
 </style>
 <nav id='menu'></nav>
 <div id='map'></div>
-<!--<div id='base'>
-     this is all related to the broken basemap toggle below 
+<div class="map-overlay" id="features">
+    <h2>The High Road</h2>
+    <div id='phase-legend' class='legend'>
+        <h4 style='font-size:16px'>Phase</h4>
+        <div><span style='background-color: #201870'></span>Current Projects</div>
+        <div><span style='background-color: #672867'></span>Next Connections</div>
+        <div><span style='background-color: #d07848'></span>Potential Connections</div>
+        <div><span style='background-color: #f8a848'></span>Wishful Thinking</div>
+        <div><span style='background-color: #000000'></span>Other Trails</div>
+    </div>
+    <div id="pd">
+        <p><em>Hover over open space!</em></p>
+    </div>
+</div>
+<!--<div id='base' class='toggle'>
     <input id='joeberkshire/cjtsmkqyy0tnk1fp794b3svet' type='radio' name ='rtoggle' value = 'default' checked='checked'>
     <label for='default'>default</label>
-    <input id='streets-v11' type='radio' name='rtoggle' value='streets'>
+    <input id='mapbox/streets-v11' type='radio' name='rtoggle' value='streets'>
     <label for='streets'>streets</label>
-    <input id='light-v10' type='radio' name='rtoggle' value='light'>
+    <input id='mapbox/light-v10' type='radio' name='rtoggle' value='light'>
     <label for='light'>light</label>
-    <input id='dark-v10' type='radio' name='rtoggle' value='dark'>
+    <input id='mapbox/dark-v10' type='radio' name='rtoggle' value='dark'>
     <label for='dark'>dark</label>
-    <input id='outdoors-v11' type='radio' name='rtoggle' value='outdoors'>
+    <input id='mapbox/outdoors-v11' type='radio' name='rtoggle' value='outdoors'>
     <label for='outdoors'>outdoors</label>
-    <input id='satellite-v9' type='radio' name='rtoggle' value='satellite'>
+    <input id='mapbox/satellite-v9' type='radio' name='rtoggle' value='satellite'>
     <label for='satellite'>satellite</label> 
 </div>-->
 <script>
 mapboxgl.accessToken = 'pk.eyJ1Ijoiam9lYmVya3NoaXJlIiwiYSI6ImNqdHI5cDQ1NTBleGE0MHBpOGU0cWJrN24ifQ.8JjEpApr73tZ0UeS62MwIw';
+
+var bounds = [
+    [-73.680476, 42.066340],
+    [-72.839565, 42.747449]
+]    
 const map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/joeberkshire/cjtsmkqyy0tnk1fp794b3svet', // '.../user/basemapid' click "share" while using studio
-    center: [-72.861904, 42.418164],
-    zoom: 8.9
+    center: [-73.249608, 42.429577],
+    zoom: 8.9,
+    bounds: bounds,
     });
-   
-/* the following is a broken attempt at creating a menu where one can switch basemaps 
-var layerList = document.getElementById('base');
-var inputs = layerList.getElementsByTagName('input');
- 
-function switchLayer(layer) {
-var layerId = layer.target.id;
-map.setStyle('mapbox://styles/mapbox/' + layerId);
-}
- 
-for (var i = 0; i < inputs.length; i++) {
-inputs[i].onclick = switchLayer;
-}*/
 
 // following is layer loading 
 map.on('load', function () {
@@ -149,6 +199,9 @@ map.on('load', function () {
         },
         'paint': {
             'line-width': 4,
+            'line-dasharray': [
+                1,2
+            ],
             'line-color': [
               "match",
               ["get", "PHASE"],
@@ -182,16 +235,13 @@ map.on('load', function () {
         },
         'paint': {
             'line-width': 4,
-            'line-dasharray': [
-                1,2
-            ],
             'line-color': [
               "match",
               ["get", "phase"],
               [1],
               "#201870",
               [2],
-              "hsl(300, 44%, 28%)",
+              "#672867",
               [3],
               "#d07848",
               [4],
@@ -208,23 +258,18 @@ map.on('load', function () {
 // if new layers are added, changed, renamed, etc. change them here to update the toggle piece 
  var toggleableLayerIds = [ 'trails','roads','open space', 'bnrc properties' ];
     
-
  // following is the layer toggle script
 for (var i = 0; i < toggleableLayerIds.length; i++) {
     var id = toggleableLayerIds[i];
-
     var link = document.createElement('a');
     link.href = '#';
     link.className = 'active';
     link.textContent = id;
-
     link.onclick = function (e) {
         var clickedLayer = this.textContent;
         e.preventDefault();
         e.stopPropagation();
-
         var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
-
         if (visibility === 'visible') {
             map.setLayoutProperty(clickedLayer, 'visibility', 'none');
             this.className = '';
@@ -233,7 +278,6 @@ for (var i = 0; i < toggleableLayerIds.length; i++) {
             map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
         }
     };
-
     var layers = document.getElementById('menu');
     layers.appendChild(link);
     }
@@ -242,8 +286,8 @@ for (var i = 0; i < toggleableLayerIds.length; i++) {
 map.on('click', 'trails', function (e) {
     new mapboxgl.Popup()
         .setLngLat(e.lngLat)
-        .setHTML(
-         e.features[0].properties.NAME)
+        .setHTML('<h3>Name: </h3>' + '<p>' +
+         e.features[0].properties.NAME +'</p>')
         .addTo(map);
     });
  
@@ -261,7 +305,8 @@ map.on('click', 'trails', function (e) {
 map.on('click', 'roads', function (e) {
     new mapboxgl.Popup()
         .setLngLat(e.lngLat)
-        .setHTML(e.features[0].properties.St_Name)
+        .setHTML('<h3>Name: </h3>' + '<p>' +
+         e.features[0].properties.St_Name +'</p>')
         .addTo(map);
     });
  
@@ -274,7 +319,44 @@ map.on('click', 'roads', function (e) {
     map.on('mouseleave', 'roads', function () {
         map.getCanvas().style.cursor = '';
     });
-</script>
+    
+// Load layers after style changes 
+map.on('style.load', function() {
+    // Always add the same custom soruces and layers after a style change
+        
+    for (var i = 0; i < customLayers.length; i++) {
+        var me = customLayers[i]
+        map.addSource(me.layer.source, me.source);
+        map.addLayer(me.layer, 'waterway-label')
+    }
+});
+    
+// Basemap toggle doesnt quite work yet. Basemap will switch but layers dont reload
+/* 
+var layerList = document.getElementById('base');
+var inputs = layerList.getElementsByTagName('input');
+ 
+function switchLayer(layer) {
+    var layerId = layer.target.id;
+    map.setStyle('mapbox://styles/' + layerId);
+}
+ 
+for (var i = 0; i < inputs.length; i++) {
+    inputs[i].onclick = switchLayer,
+}
+ */   
+//next step is to create a header with the ability to see what OS you're hovering over: maybe add ownership?
+map.on('mousemove', function(e) {
+  var osr = map.queryRenderedFeatures(e.point, {
+    layers: ['open space']
+  });
 
+  if (osr.length > 0) {
+    document.getElementById('pd').innerHTML = '<h3><strong>' + osr[0].properties.SITE_NAME + '</strong></h3><p><strong><em>' + osr[0].properties.GIS_ACRES + '</strong> acres conserved</em></p>';
+  } else {
+    document.getElementById('pd').innerHTML = '<p><em>Hover over open space!</em></p>';
+  }
+});
+</script>
 </body>
 </html>
