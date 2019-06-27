@@ -146,15 +146,12 @@ const map = new mapboxgl.Map({
     style: 'mapbox://styles/joeberkshire/cjtsmkqyy0tnk1fp794b3svet', // '.../user/basemapid' click "share" while using studio
     center: [-73.249608, 42.429577],
     zoom: 8.9,
+    maxZoom: 14,
     bounds: bounds,
     });
 
 // following is layer loading 
 map.on('load', function () {
-    map.addSource('trails', {
-        type: 'vector',
-        url: 'mapbox://joeberkshire.0x2a68l4' //find these pieces at studio.mapbox.com/tilesets
-    });
     map.addSource('openspace', {
         type: 'vector',
         url: 'mapbox://joeberkshire.7vixamhx' //find these pieces at studio.mapbox.com/tilesets
@@ -187,11 +184,15 @@ map.on('load', function () {
             'fill-color': "hsla(196, 42%, 35%, 0.8)",
         },
     })
+    map.addSource('trailz', {
+        type: 'vector',
+        url: 'mapbox://joeberkshire.809kjd3y' //find these pieces at studio.mapbox.com/tilesets under the name "Map ID"
+    });
     map.addLayer({
         'id': 'trails',
         'type': 'line',
-        'source': 'trails',
-        'source-layer': 'trl-6wini7', 
+        'source': 'trailz',
+        'source-layer': 'tr_062719-btk4yv', 
         'layout': {
         'visibility': 'visible',
         'line-cap': 'round',
@@ -204,30 +205,30 @@ map.on('load', function () {
             ],
             'line-color': [
               "match",
-              ["get", "PHASE"],
-              ["1"],
+              ["get", "hr_phase"],
+              [1],
               "#201870",
-              ["2"],
+              [2],
               "hsl(300, 44%, 28%)",
-              ["3"],
+              [3],
               "#d07848",
-              ["4"],
+              [4],
               "#f8a848",
-              ["5"],
+              [5],
               "hsla(0, 0%, 0%, 0)",
               "#000000"
             ]
         },
     })
-     map.addSource('roads', {
+    map.addSource('roadz', {
         type: 'vector',
-        url: 'mapbox://joeberkshire.b3rgsj9t' //find these pieces at studio.mapbox.com/tilesets
+        url: 'mapbox://joeberkshire.0ltyxjlj' //find these pieces at studio.mapbox.com/tilesets
     });
     map.addLayer({
         'id': 'roads',
         'type': 'line',
-        'source': 'roads',
-        'source-layer': 'rds-cqj627', 
+        'source': 'roadz',
+        'source-layer': 'rd-062719-biaca6', //this is the name of the tileset, not the piece from the copy & paste section
         'layout': {
         'visibility': 'visible',
         'line-cap': 'round',
@@ -306,7 +307,7 @@ map.on('click', 'roads', function (e) {
     new mapboxgl.Popup()
         .setLngLat(e.lngLat)
         .setHTML('<h3>Name: </h3>' + '<p>' +
-         e.features[0].properties.St_Name +'</p>')
+         e.features[0].properties.Title_Name +'</p>')
         .addTo(map);
     });
  
@@ -320,7 +321,7 @@ map.on('click', 'roads', function (e) {
         map.getCanvas().style.cursor = '';
     });
     
-// Load layers after style changes 
+/*// Load layers after style changes 
 map.on('style.load', function() {
     // Always add the same custom soruces and layers after a style change
         
@@ -329,7 +330,7 @@ map.on('style.load', function() {
         map.addSource(me.layer.source, me.source);
         map.addLayer(me.layer, 'waterway-label')
     }
-});
+});*/
     
 // Basemap toggle doesnt quite work yet. Basemap will switch but layers dont reload
 /* 
