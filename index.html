@@ -220,14 +220,14 @@ map.on('load', function () {
             ]
         },
     })
-    map.addSource('roadz', {
+    map.addSource('roads', {
         type: 'vector',
         url: 'mapbox://joeberkshire.0ltyxjlj' //find these pieces at studio.mapbox.com/tilesets
     });
     map.addLayer({
         'id': 'roads',
         'type': 'line',
-        'source': 'roadz',
+        'source': 'roads',
         'source-layer': 'rd-062719-biaca6', //this is the name of the tileset, not the piece from the copy & paste section
         'layout': {
         'visibility': 'visible',
