@@ -184,14 +184,14 @@ map.on('load', function () {
             'fill-color': "hsla(196, 42%, 35%, 0.8)",
         },
     })
-    map.addSource('trailz', {
+    map.addSource('trails', {
         type: 'vector',
         url: 'mapbox://joeberkshire.809kjd3y' //find these pieces at studio.mapbox.com/tilesets under the name "Map ID"
     });
     map.addLayer({
         'id': 'trails',
         'type': 'line',
-        'source': 'trailz',
+        'source': 'trails',
         'source-layer': 'tr_062719-btk4yv', 
         'layout': {
         'visibility': 'visible',
