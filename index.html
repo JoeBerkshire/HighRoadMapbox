@@ -84,7 +84,7 @@
     }
     .toggle {
         position:absolute;
-        font-family: 'Raleway',sans-serif;
+        font-family: 'Raleway','sans-serif';
         top:0%;
         right:0%;
     }
@@ -146,7 +146,7 @@ const map = new mapboxgl.Map({
     style: 'mapbox://styles/joeberkshire/cjtsmkqyy0tnk1fp794b3svet', // '.../user/basemapid' click "share" while using studio
     center: [-73.249608, 42.429577],
     zoom: 8.9,
-    maxZoom: 14,
+    maxZoom: 11,
     bounds: bounds,
     });
 
@@ -207,13 +207,13 @@ map.on('load', function () {
               "match",
               ["get", "hr_phase"],
               [1],
-              "#201870",
+              "#167575",
               [2],
-              "hsl(300, 44%, 28%)",
+              "#5f41ab",
               [3],
-              "#d07848",
+              "#b0459a",
               [4],
-              "#f8a848",
+              "#f79a60",
               [5],
               "hsla(0, 0%, 0%, 0)",
               "#000000"
@@ -240,13 +240,13 @@ map.on('load', function () {
               "match",
               ["get", "phase"],
               [1],
-              "#201870",
+              "#167575",
               [2],
-              "#672867",
+              "#5f41ab",
               [3],
-              "#d07848",
+              "#b0459a",
               [4],
-              "#f8a848",
+              "#f79a60",
               [5],
               "hsla(0, 0%, 0%, 0)",
               "#000000"
