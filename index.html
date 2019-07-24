@@ -101,7 +101,7 @@
     }
     p {
         font-size: 14px;
-        font-family: 'Raleway', sans-serif;
+        font-family: 'Raleway'', sans-serif;
     }
 </style>
 <nav id='menu'></nav>
@@ -146,7 +146,7 @@ const map = new mapboxgl.Map({
     style: 'mapbox://styles/joeberkshire/cjtsmkqyy0tnk1fp794b3svet', // '.../user/basemapid' click "share" while using studio
     center: [-73.249608, 42.429577],
     zoom: 8.9,
-    maxZoom: 11,
+    maxZoom: 14,
     bounds: bounds,
     });
 
@@ -184,14 +184,14 @@ map.on('load', function () {
             'fill-color': "hsla(196, 42%, 35%, 0.8)",
         },
     })
-    map.addSource('trails', {
+    map.addSource('trailz', {
         type: 'vector',
         url: 'mapbox://joeberkshire.809kjd3y' //find these pieces at studio.mapbox.com/tilesets under the name "Map ID"
     });
     map.addLayer({
         'id': 'trails',
         'type': 'line',
-        'source': 'trails',
+        'source': 'trailz',
         'source-layer': 'tr_062719-btk4yv', 
         'layout': {
         'visibility': 'visible',
@@ -207,27 +207,27 @@ map.on('load', function () {
               "match",
               ["get", "hr_phase"],
               [1],
-              "#167575",
+              "#201870",
               [2],
-              "#5f41ab",
+              "hsl(300, 44%, 28%)",
               [3],
-              "#b0459a",
+              "#d07848",
               [4],
-              "#f79a60",
+              "#f8a848",
               [5],
               "hsla(0, 0%, 0%, 0)",
               "#000000"
             ]
         },
     })
-    map.addSource('roads', {
+    map.addSource('roadz', {
         type: 'vector',
         url: 'mapbox://joeberkshire.0ltyxjlj' //find these pieces at studio.mapbox.com/tilesets
     });
     map.addLayer({
         'id': 'roads',
         'type': 'line',
-        'source': 'roads',
+        'source': 'roadz',
         'source-layer': 'rd-062719-biaca6', //this is the name of the tileset, not the piece from the copy & paste section
         'layout': {
         'visibility': 'visible',
@@ -240,13 +240,13 @@ map.on('load', function () {
               "match",
               ["get", "phase"],
               [1],
-              "#167575",
+              "#201870",
               [2],
-              "#5f41ab",
+              "#672867",
               [3],
-              "#b0459a",
+              "#d07848",
               [4],
-              "#f79a60",
+              "#f8a848",
               [5],
               "hsla(0, 0%, 0%, 0)",
               "#000000"
@@ -307,7 +307,7 @@ map.on('click', 'roads', function (e) {
     new mapboxgl.Popup()
         .setLngLat(e.lngLat)
         .setHTML('<h3>Name: </h3>' + '<p>' +
-         e.features[0].properties.St_Name +'</p>')
+         e.features[0].properties.Title_Name +'</p>')
         .addTo(map);
     });
  
